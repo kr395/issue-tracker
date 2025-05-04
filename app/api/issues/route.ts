@@ -6,6 +6,7 @@ const createIssueSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().min(1).max(300),
 });
+// if validation fails
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const validation = createIssueSchema.safeParse(body);
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
       status: 400,
     });
   }
-
+ // if validation success
   const newIssue = await prisma.issue.create({
     data: {
       title: validation.data.title,
